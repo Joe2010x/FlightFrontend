@@ -1,0 +1,80 @@
+.SearchBar {
+    margin: 1rem;
+    border: 1px solid black;
+    border-radius: 1rem;
+    display: flex;
+    flex-direction: column;
+}
+
+.ReturnOrOneWay {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+.return-oneway-button {
+    border-radius: 0.5rem;
+    margin: 1rem;
+    padding: 0.5rem;
+    width: 35%;
+}
+
+.SearchFields--cities {
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    background-color: aquamarine;
+}
+.search--city {
+    margin: 1rem 3rem;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: left;
+    
+}
+.city {
+    margin: 0.2rem 0;
+    padding: 0.2rem;
+    border-radius: 0.2rem;
+    width: 80%;
+}
+
+.SearchFields--dates {
+
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    margin-bottom: 1rem;
+}
+
+.Passengers {
+    margin: 1rem 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: left;
+    align-items: left;
+}
+
+.passenger--field {
+    margin: 0.5rem 3rem;
+    text-align: left;
+}
+.passenger--label {
+    display: inline-block;
+    width: 10rem;
+}
+.passenger--input {
+    width: 5rem;
+    text-align: center;
+    border: 1px solid black;
+    border-radius: 0.3rem;
+}
+
+.searchBtn {
+    width: 60%;
+    align-self: center;
+    margin-bottom: 1rem;
+    padding: 1rem 0;
+}
