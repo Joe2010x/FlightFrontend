@@ -61,10 +61,12 @@ const FlightCard = ({
                         
                         <span>Flight duration: {durationText}</span>
                         <br></br>
-                        <span>Adult {passengers.adult} x {flights[indexFlight].itineraries[indexItineraries].prices[0].adult} {flights[indexFlight].itineraries[indexItineraries].prices[0].currency}</span> ¨¨¨
+                        <span>Adult {passengers.adult} x {flights[indexFlight].itineraries[indexItineraries].prices[0].adult} {flights[indexFlight].itineraries[indexItineraries].prices[0].currency}</span> &nbsp
                         <span>Child {passengers.child} x {flights[indexFlight].itineraries[indexItineraries].prices[0].child} {flights[indexFlight].itineraries[indexItineraries].prices[0].currency}</span>
                         <br></br>
                         <span>Total price: {passengers.adult * flights[indexFlight].itineraries[indexItineraries].prices[0].adult + passengers.child * flights[indexFlight].itineraries[indexItineraries].prices[0].child} {flights[indexFlight].itineraries[indexItineraries].prices[0].currency}</span>
+                        <br></br>
+                        <span>Available seats: {flights[indexFlight].itineraries[indexItineraries].avaliableSeats}</span>
                     </div>}
                 </div>
                     <div className="flightCard--buttons--field">

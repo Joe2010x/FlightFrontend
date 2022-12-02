@@ -10,8 +10,10 @@ function App() {
   
   const handleConfirmed = (flightInfo) =>{
     let newInfo = JSON.parse(JSON.stringify(selectedFlights));
-    if (flightInfo.outBound !== undefined) newInfo.outBound = flightInfo.outBound;
-    if (!flightInfo.returnBound !== undefined) newInfo.returnBound = flightInfo.returnBound;
+    if (flightInfo.outBound !== undefined) 
+      newInfo.outBound = flightInfo.outBound;
+    if (flightInfo.returnBound !== undefined) 
+      newInfo.returnBound = flightInfo.returnBound;
     //console.log('this is confirmed pressed ', selectedFlights);
     setSelectedFlights(newInfo);
     if (flightInfo === 'confirmed') setStatus('personInfo');

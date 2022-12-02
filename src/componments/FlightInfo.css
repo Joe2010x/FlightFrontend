@@ -1,0 +1,13 @@
+.flightCities {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    border-radius: 1rem;
+}
+
+.flightInfo {
+    border: 1px solid black;
+    border-radius: 1rem;
+    margin:.5rem 1rem;
+    width: 45%;
+}
