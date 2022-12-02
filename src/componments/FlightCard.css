@@ -30,3 +30,10 @@
     color: white;
     font-size: x-large;
 }
+
+.flight--details {
+    background-color: cornsilk;
+    border-radius: 1rem;
+    margin: 0.5rem;
+    border: 1px solid black;
+}

@@ -74,7 +74,11 @@
 
 .searchBtn {
     width: 60%;
+    padding: 1rem;
+    background-color: darkcyan;
+    border-radius: 1rem;
+    color: white;
+    font-size: x-large;
     align-self: center;
     margin-bottom: 1rem;
-    padding: 1rem 0;
 }
