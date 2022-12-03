@@ -25,7 +25,7 @@ function App() {
       <header className="App-header">
         <p>Flight Finder</p>
       </header>
-      <p>This is main</p>
+     
      { (status === 'search') && 
         <Search setFlights = {handleConfirmed}/>}
      {(status === 'personInfo') && 

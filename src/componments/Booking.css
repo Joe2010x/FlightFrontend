@@ -3,3 +3,21 @@
     flex-direction: row;
     flex-wrap: wrap;
 }
+.info--book--btn {
+    width: 60%;
+    padding: 1rem;
+    background-color: darkcyan;
+    border-radius: 1rem;
+    color: white;
+    font-size: x-large;
+    align-self: center;
+    margin-bottom: 1rem;
+}
+
+.finished { 
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    /* bring your own prefixes */
+    transform: translate(-50%, -50%);
+}

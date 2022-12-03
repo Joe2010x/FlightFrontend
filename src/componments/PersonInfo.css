@@ -1,5 +1,5 @@
 .personInfo {
-    margin:0.5rem 1rem;
+    margin: 0.5rem 1rem;
     border-radius: 1rem;
     border: 1px solid black;
     display: flex;
@@ -10,21 +10,64 @@
 
 .info--title {
     text-align: left;
-    background-color: aqua;
+    /* background-color: aqua; */
     margin: 0.3rem 1rem;
 }
 
-.info--nameAndDob {
+.info--nameAndContact {
     display: flex;
     flex-direction: row;
     justify-content: space-around;
+    margin: 0 0.5rem;
+}
+
+.info--dobAndSave {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
     margin: 0.5rem;
 }
 
-.info--contactAndSave {
+.info--name {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     justify-content: space-around;
-    align-items:left;
+    align-items: left;
     margin: 0.5rem;
+    width: 45%;
+}
+
+.info-label-input {
+    text-align: left;
+    /* background-color: aqua; */
+}
+
+.info--label {
+    display: inline-block;
+    width: 35%;
+}
+
+.info--dob {
+    margin: .5rem 0;
+}
+
+.info--btn {
+    /* margin: .5rem 0; */
+    /* border-radius: 1rem; */
+    padding: .5rem 0.5rem;
+
+    /* width: 60%; */
+    /* padding: 1rem; */
+    background-color: lightgrey;
+    border-radius: 1rem;
+    color: black;
+    /* font-size: x-large; */
+    align-self: center;
+    /* margin-bottom: 1rem; */
+
+}
+
+.active {
+    background-color: darkcyan;
 }
