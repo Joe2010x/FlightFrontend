@@ -3,10 +3,7 @@ import FlightCard from "./FlightCard";
 import "./Trip.css";
 
 const Trip = ({ flightList, passengers, title , handleSelected}) => {
-    // const [flights, setFlights] = useState({
-    //     flightList,
-    //     passengers
-    // })
+    
     const [flights, setFlights] = useState(flightList)
 
     const handleSelect = (indexFlight, indexItineraries) => {
@@ -40,7 +37,6 @@ const Trip = ({ flightList, passengers, title , handleSelected}) => {
         setFlights(newTrip);
     }
 
-    // console.log(flights);
     return (
         <div className="trip">
             <h2>{title}</h2>

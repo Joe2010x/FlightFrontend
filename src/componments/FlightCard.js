@@ -8,8 +8,6 @@ const FlightCard = ({
     indexFlight, 
     handleSelect}) => {
 
-    // console.log("flightcard, flights info ", flights)
-    // console.log('passenger info ', passengers);
     const [details, setDetails] = useState(false);
     const [durationText, setDurationText] = useState(null);
 
@@ -24,7 +22,7 @@ const FlightCard = ({
     
     const handleSelectCard = () => {
         handleSelect(indexFlight, indexItineraries)
-        console.log('flight selected');
+        // console.log('flight selected');
     }
 
     const handleDetails = ( ) => {

@@ -23,18 +23,10 @@ const Search = ({ setFlights }) => {
     const [returnBound, setReturnBound] = useState(null);
 
     const [status, setStuatus] = useState('search');
-    const [selectStatus,setSelectStatus] = useState({outBound: false, returnBound: false});
+    const [outBoundStatus, setOutBoundStatus] = useState(false);
+    const [returnBoundStatus, setReturnBoundStatus] = useState(false);
+
     const url = 'https://localhost:5000/api/flight';
-
-    // const newDate = new Date();
-    // console.log(newDate);
-
-    // const [testDate, setTestDate] = useState(newDate);
-
-    // //console.log(departureDate);
-    // const handleSelectDepartureDate = () => {
-    //     console.log(departureDate);
-    // }
 
     const clickOneWay = () => {
         if (oneWayBtn) return;
@@ -58,7 +50,7 @@ const Search = ({ setFlights }) => {
             .then(json => console.log(json));
     }
 
-    const fetchFlightData = (oneDepartureCity, oneArrivalCity, oneDepartureDate, setFunction) => {
+    const fetchFlightData = (oneDepartureCity, oneArrivalCity, oneDepartureDate, setFunction, bound) => {
         let requestDTO = {
             departureCity: oneDepartureCity,
             arrivalCity: oneArrivalCity,
@@ -72,10 +64,10 @@ const Search = ({ setFlights }) => {
             body: JSON.stringify(requestDTO),
         })
             .then(res => res.json())
-            .then(json => trimItinary(json, setFunction))
+            .then(json => trimItinary(json, setFunction,bound))
     }
 
-    const trimItinary = (trip, setFunction) => {
+    const trimItinary = (trip, setFunction,bound) => {
         let newTrip = [];
 
         for (let i = 0; i < trip.length; i++) {
@@ -86,41 +78,51 @@ const Search = ({ setFlights }) => {
                 newTrip.push(trip[i]);
             }
         };
-        // console.log('trimed trip ', newTrip)
+        // console.log('trimed trip ',bound, newTrip)
+        if (bound === 'outBound' && newTrip.length===0)
+            {
+                //selectStatus.outBound = true;
+                setOutBoundStatus(true);
+                // console.log('set outbound to true');
+            }
+        if (bound === 'returnBound' && newTrip.length === 0)
+            {
+                //selectStatus.returnBound = true;
+                setReturnBoundStatus(true);
+                // console.log('set returnbound to true');
+            }
         setFunction(newTrip);
     }
 
     const handleSearch = () => {
         //one Way (out bound)
-        fetchFlightData(departureCity, arrivalCity, departureDate, setOutBound)
+        fetchFlightData(departureCity, arrivalCity, departureDate, setOutBound,"outBound");
 
-
-        //return (return bound)
         if (returnBtn) {
-            fetchFlightData(arrivalCity, departureCity, returnDate, setReturnBound);
-            // trimItinary(returnBound,setReturnBound);
+            fetchFlightData(arrivalCity, departureCity, returnDate, setReturnBound, "returnBound");  
         }
-        // .then (() => 
-        //setFlights( {outBound,returnBound}));
         setStuatus('select');
-
     }
 
     const handleSelected = (flightInfo) => {
-        console.log('Search level handle select ', flightInfo);
+        // console.log('Search level handle select ', flightInfo);
 
         if (flightInfo.title === 'Out Bound'){
-            if (oneWayBtn) selectStatus.returnBound = true;
-            selectStatus.outBound = true;
+            if (oneWayBtn) {
+                setReturnBoundStatus(true);
+                }           
+                setOutBoundStatus (true);
+            
             setFlights({ outBound: flightInfo })}
-        if (flightInfo.title === 'Return Bound'){
-            selectStatus.returnBound = true;
-            setFlights({ returnBound: flightInfo })}
+
+        if (flightInfo.title === 'Return Bound'){    
+            setReturnBoundStatus(true);
+            setFlights({ returnBound: flightInfo })}       
     }
 
     const handleConfirm = () => {
-        console.log('selectStatus is ',selectStatus);
-        if (selectStatus.outBound && selectStatus.returnBound)
+        // console.log('selectStatus is ',outBoundStatus,returnBoundStatus);
+        if (outBoundStatus && returnBoundStatus)
             setFlights('confirmed');
     }
 

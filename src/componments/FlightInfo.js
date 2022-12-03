@@ -1,7 +1,7 @@
 import './FlightInfo.css';
 
 const FlightInfo = ({ info }) => {
-    console.log('FlightInfo inof', info)
+    // console.log('FlightInfo inof', info)
     let departureAt = new Date(info.itinerary.departureAt);
     let arriveAt = new Date(info.itinerary.arriveAt);
     return (
