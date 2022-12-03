@@ -3,7 +3,6 @@ Flight Finder Fullstack project
 
 ## How to setup 
   clone this git repository
-  then
   
   $ cd flightfrontend 
   $ npm install
