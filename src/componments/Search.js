@@ -29,6 +29,7 @@ const Search = ({ setFlights }) => {
     const url = 'https://localhost:5000/api/flight';
 
     const clickOneWay = () => {
+
         if (oneWayBtn) return;
         else {
             setOneWayBtn(true);
@@ -52,7 +53,6 @@ const Search = ({ setFlights }) => {
 
     async function fetchWithTimeout(resource, options) {
         const { timeout } = options;
-        // console.log('timeout is ', timeout);
         const abortController = new AbortController();
         const id = setTimeout(() => abortController.abort(), timeout);
         const response = await fetch(resource, {
@@ -69,33 +69,17 @@ const Search = ({ setFlights }) => {
             arrivalCity: oneArrivalCity,
             departureDate: oneDepartureDate
         };
-        // console.log(requestDTO);
         try { 
-            // const response = await fetch(url, {
-            //     method: 'POST',
-            //     headers: { 'content-type': 'application/json' },
-            //     body: JSON.stringify(requestDTO),
-                
-            // });
             const response = await fetchWithTimeout(url, {
                 method: 'POST',
                 headers: { 'content-type': 'application/json' },
                 body: JSON.stringify(requestDTO),
                 timeout : 3000});
             const flightInfo = response.json();
-            console.log('after fetch flightInfo is, ',await flightInfo);
             trimItinary(await flightInfo,setFunction,bound);
         } catch (error) {
             console.log( error);
         }
-        // fetch(url, {
-        //     method: 'POST',
-        //     headers: { 'content-type': 'application/json' },
-        //     body: JSON.stringify(requestDTO),
-        // })
-        //     .then(res => res.json())
-        //     .then(json => trimItinary(json, setFunction, bound))
-
     }
 
     const trimItinary = (trip, setFunction, bound) => {
@@ -109,16 +93,11 @@ const Search = ({ setFlights }) => {
                 newTrip.push(trip[i]);
             }
         };
-        // console.log('trimed trip ',bound, newTrip)
         if (bound === 'outBound' && newTrip.length === 0) {
-            //selectStatus.outBound = true;
             setOutBoundStatus(true);
-            // console.log('set outbound to true');
         }
         if (bound === 'returnBound' && newTrip.length === 0) {
-            //selectStatus.returnBound = true;
             setReturnBoundStatus(true);
-            // console.log('set returnbound to true');
         }
         setTimeout(() =>
             setFunction(newTrip)
@@ -126,7 +105,6 @@ const Search = ({ setFlights }) => {
     }
 
     const handleSearch = () => {
-        //one Way (out bound)
         fetchFlightData(departureCity, arrivalCity, departureDate, setOutBound, "outBound");
 
         if (returnBtn) {
@@ -136,7 +114,6 @@ const Search = ({ setFlights }) => {
     }
 
     const handleSelected = (flightInfo) => {
-        // console.log('Search level handle select ', flightInfo);
 
         if (flightInfo.title === 'Out Bound') {
             if (oneWayBtn) {
@@ -152,9 +129,9 @@ const Search = ({ setFlights }) => {
             setFlights({ returnBound: flightInfo })
         }
     }
+    
 
     const handleConfirm = () => {
-        // console.log('selectStatus is ',outBoundStatus,returnBoundStatus);
         if (outBoundStatus && returnBoundStatus)
             setFlights('confirmed');
     }
@@ -180,9 +157,6 @@ const Search = ({ setFlights }) => {
                     <div className="search--city">
 
                         <span>Departure City: </span>
-                        {/* <input placeholder="City" type="text" className="city"
-                            onChange={e => setDepartureCity(e.target.value)}
-                        ></input> */}
 
                         <select className="city" defaultValue={departureCity} onChange={e => setDepartureCity(e.target.value)} >
                             <option value="Stockholm" >Stockholm</option>
@@ -194,10 +168,6 @@ const Search = ({ setFlights }) => {
                     <div className="search--city">
 
                         <span>Arrival City:</span>
-                        {/* <input placeholder="City" type="text" className="city"
-
-                            onChange={e => setArrivalCity(e.target.value)}
-                        ></input> */}
                         <select className="city" defaultValue={arrivalCity} onChange={e => setArrivalCity(e.target.value)} >
                             <option value="Stockholm">Stockholm</option>
                             <option value="Oslo">Oslo</option>
@@ -255,7 +225,7 @@ const Search = ({ setFlights }) => {
             {(status === 'select') && <div>
                 {!outBound
                     ? <div className="loading">
-                        <img src="./loading-splash.gif" />
+                        <img src="./loading-splash.gif" alt="loading git"/>
                     </div>
                     : <Trip
                         flightList={outBound}

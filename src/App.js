@@ -1,10 +1,15 @@
-import logo from './logo.svg';
+
 import './App.css';
 import Search from './componments/Search';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import Booking from './componments/Booking';
 
 function App() {
+
+  const { timeZone } = Intl.DateTimeFormat().resolvedOptions();
+
+console.log(timeZone);
+
   const [status, setStatus] = useState('search')
   const [selectedFlights,setSelectedFlights] = useState({outBound: null, returnBound : null});
   

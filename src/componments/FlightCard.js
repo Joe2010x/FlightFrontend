@@ -40,19 +40,15 @@ const FlightCard = ({
         <div className="flightCard" style={flights[indexFlight].itineraries[indexItineraries].selected
             ? {backgroundColor: 'lightcoral'}
             : {backgroundColor:'lightgray'}}>
-            {/* Flight Details */}
                 <div>
                     <span className="city--label">Departure City: </span>
                     <span className="city">{flights[indexFlight].departureDestination} </span>
                     <br />
-
-                    {/* <span>Departure At</span> */}
                     <span>{departureAt.toString()} </span>
                     <br />
                     <span className="city--label">Arrival City: </span>
                     <span className="city">{flights[indexFlight].arrivalDestination} </span>
                     <br />
-                    {/* <span>Arrival At</span> */}
                     <span>{arriveAt.toString()} </span>
                     <br />
                     {details && <div className="flight--details">

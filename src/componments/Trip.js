@@ -23,8 +23,6 @@ const Trip = ({ flightList, passengers, title , handleSelected}) => {
                 }
             }
         }
-        // console.log("handleSelect ", title, indexFlight, indexItineraries)
-
         handleSelected({
             title: title,
             departureCity: flights[indexFlight].departureDestination,

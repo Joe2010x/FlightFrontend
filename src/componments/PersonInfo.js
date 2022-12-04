@@ -3,10 +3,8 @@ import DatePicker from "react-datepicker";
 import { useState } from 'react';
 
 const PersonInfo = ({ index, type, person, updatePerson }) => {
-    // console.log('personInfo person props ', person.firstName);
     let newDateOfBirth = person.dateOfBirth ? new Date(person.dateOfBirth) : new Date();
     const [dateOfBirth, setDateOfBirth] = useState(newDateOfBirth)
-    //console.log('type',type);
     const [firstName, setFirstName] = useState(person.firstName);
     const [lastName, setLastName] = useState(person.lastName);
     const [email, setEmail] = useState(person.email);

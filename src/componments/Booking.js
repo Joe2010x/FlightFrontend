@@ -5,7 +5,9 @@ import { useState } from "react";
 import ConfirmPerson from "./ConfirmPerson";
 
 const Booking = ({ selectedFlights }) => {
-    // console.log('booking page: ', selectedFlights);
+    const url = 'https://localhost:5000/api/flight';
+
+    console.log('booking page: ', selectedFlights);
     const [status, setStatus] = useState('passengerInfo');
 
     let numAdult = parseInt(selectedFlights.outBound.passengers.adult);
@@ -17,11 +19,7 @@ const Booking = ({ selectedFlights }) => {
     })
 
     const updatePerson = (type, index, person) => {
-        // console.log('updatePerson triggered', index,person);
         let newPassengers = JSON.parse(JSON.stringify(passengers));
-        // if (type ==='adult') {
-
-        // }
         newPassengers[type][index] = person;
         console.log('newPassengers is ', newPassengers);
         setPassengers(newPassengers);
@@ -31,7 +29,6 @@ const Booking = ({ selectedFlights }) => {
     const handleBook = () => {
         let allPassengerSaved = true;
         passengers.adult.forEach(e => {
-            // console.log('e is ', e);
             if (Object.keys(e).length === 0) {
                 console.log('error not all passengers are saved');
                 allPassengerSaved = false;
@@ -40,8 +37,6 @@ const Booking = ({ selectedFlights }) => {
         );
         passengers.child.forEach(e => {
             if (Object.keys(e).length === 0) {
-                // console.log('error not all passengers are saved');
-
                 allPassengerSaved = false;
             }
         }
@@ -50,7 +45,37 @@ const Booking = ({ selectedFlights }) => {
         if (allPassengerSaved) setStatus('confirmation');
     }
 
+    const httpPut = async (flight_id, departureDateTime, numSeats) => {
+        let requestPutDTO = {
+            flight_id,
+            departureDateTime,
+            numSeats
+        }
+
+        console.log('httpPut request, ', requestPutDTO);
+
+        await fetch (url, {
+            method: 'PUT',
+            headers: { 'content-type': 'application/json' },
+            body: JSON.stringify(requestPutDTO)
+        })
+    }
+
     const handleConfirm = () => {
+        if (selectedFlights.outBound) {
+            httpPut(
+                selectedFlights.outBound.flight_id, 
+                selectedFlights.outBound.itinerary.departureAt, 
+                numAdult + numChild);
+        }
+
+        if (selectedFlights.returnBound) {
+            httpPut(
+                selectedFlights.returnBound.flight_id,
+                new Date(selectedFlights.returnBound.itinerary.departureAt),
+                numAdult + numChild
+            )
+        }
         setStatus('Finished');
     }
 
