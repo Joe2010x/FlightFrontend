@@ -50,24 +50,55 @@ const Search = ({ setFlights }) => {
             .then(json => console.log(json));
     }
 
-    const fetchFlightData = (oneDepartureCity, oneArrivalCity, oneDepartureDate, setFunction, bound) => {
+    async function fetchWithTimeout(resource, options) {
+        const { timeout } = options;
+        // console.log('timeout is ', timeout);
+        const abortController = new AbortController();
+        const id = setTimeout(() => abortController.abort(), timeout);
+        const response = await fetch(resource, {
+          ...options,
+          signal: abortController.signal  
+        });
+        clearTimeout(id);
+        return response;
+      }
+
+    const  fetchFlightData = async (oneDepartureCity, oneArrivalCity, oneDepartureDate, setFunction, bound) => {
         let requestDTO = {
             departureCity: oneDepartureCity,
             arrivalCity: oneArrivalCity,
             departureDate: oneDepartureDate
         };
         // console.log(requestDTO);
+        try { 
+            // const response = await fetch(url, {
+            //     method: 'POST',
+            //     headers: { 'content-type': 'application/json' },
+            //     body: JSON.stringify(requestDTO),
+                
+            // });
+            const response = await fetchWithTimeout(url, {
+                method: 'POST',
+                headers: { 'content-type': 'application/json' },
+                body: JSON.stringify(requestDTO),
+                timeout : 3000});
+            const flightInfo = response.json();
+            console.log('after fetch flightInfo is, ',await flightInfo);
+            trimItinary(await flightInfo,setFunction,bound);
+        } catch (error) {
+            console.log( error);
+        }
+        // fetch(url, {
+        //     method: 'POST',
+        //     headers: { 'content-type': 'application/json' },
+        //     body: JSON.stringify(requestDTO),
+        // })
+        //     .then(res => res.json())
+        //     .then(json => trimItinary(json, setFunction, bound))
 
-        fetch(url, {
-            method: 'POST',
-            headers: { 'content-type': 'application/json' },
-            body: JSON.stringify(requestDTO),
-        })
-            .then(res => res.json())
-            .then(json => trimItinary(json, setFunction,bound))
     }
 
-    const trimItinary = (trip, setFunction,bound) => {
+    const trimItinary = (trip, setFunction, bound) => {
         let newTrip = [];
 
         for (let i = 0; i < trip.length; i++) {
@@ -79,27 +110,27 @@ const Search = ({ setFlights }) => {
             }
         };
         // console.log('trimed trip ',bound, newTrip)
-        if (bound === 'outBound' && newTrip.length===0)
-            {
-                //selectStatus.outBound = true;
-                setOutBoundStatus(true);
-                // console.log('set outbound to true');
-            }
-        if (bound === 'returnBound' && newTrip.length === 0)
-            {
-                //selectStatus.returnBound = true;
-                setReturnBoundStatus(true);
-                // console.log('set returnbound to true');
-            }
-        setFunction(newTrip);
+        if (bound === 'outBound' && newTrip.length === 0) {
+            //selectStatus.outBound = true;
+            setOutBoundStatus(true);
+            // console.log('set outbound to true');
+        }
+        if (bound === 'returnBound' && newTrip.length === 0) {
+            //selectStatus.returnBound = true;
+            setReturnBoundStatus(true);
+            // console.log('set returnbound to true');
+        }
+        setTimeout(() =>
+            setFunction(newTrip)
+            , 3000);
     }
 
     const handleSearch = () => {
         //one Way (out bound)
-        fetchFlightData(departureCity, arrivalCity, departureDate, setOutBound,"outBound");
+        fetchFlightData(departureCity, arrivalCity, departureDate, setOutBound, "outBound");
 
         if (returnBtn) {
-            fetchFlightData(arrivalCity, departureCity, returnDate, setReturnBound, "returnBound");  
+            fetchFlightData(arrivalCity, departureCity, returnDate, setReturnBound, "returnBound");
         }
         setStuatus('select');
     }
@@ -107,17 +138,19 @@ const Search = ({ setFlights }) => {
     const handleSelected = (flightInfo) => {
         // console.log('Search level handle select ', flightInfo);
 
-        if (flightInfo.title === 'Out Bound'){
+        if (flightInfo.title === 'Out Bound') {
             if (oneWayBtn) {
                 setReturnBoundStatus(true);
-                }           
-                setOutBoundStatus (true);
-            
-            setFlights({ outBound: flightInfo })}
+            }
+            setOutBoundStatus(true);
 
-        if (flightInfo.title === 'Return Bound'){    
+            setFlights({ outBound: flightInfo })
+        }
+
+        if (flightInfo.title === 'Return Bound') {
             setReturnBoundStatus(true);
-            setFlights({ returnBound: flightInfo })}       
+            setFlights({ returnBound: flightInfo })
+        }
     }
 
     const handleConfirm = () => {
@@ -220,16 +253,19 @@ const Search = ({ setFlights }) => {
 
             </div>}
             {(status === 'select') && <div>
-
-                {outBound && <Trip
-                    flightList={outBound}
-                    title="Out Bound"
-                    passengers={{
-                        "adult": numAdult,
-                        "child": numChild
-                    }}
-                    handleSelected={handleSelected}
-                />}
+                {!outBound
+                    ? <div className="loading">
+                        <img src="./loading-splash.gif" />
+                    </div>
+                    : <Trip
+                        flightList={outBound}
+                        title="Out Bound"
+                        passengers={{
+                            "adult": numAdult,
+                            "child": numChild
+                        }}
+                        handleSelected={handleSelected}
+                    />}
 
                 {returnBound && <Trip
                     flightList={returnBound}
@@ -241,7 +277,7 @@ const Search = ({ setFlights }) => {
                     handleSelected={handleSelected}
                 />}
 
-            <button className="searchBtn" onClick={handleConfirm}>Book</button>
+                <button className="searchBtn" onClick={handleConfirm}>Book</button>
 
             </div>}
         </div>
